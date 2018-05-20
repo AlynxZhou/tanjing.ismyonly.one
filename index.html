@@ -4,22 +4,168 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-		<!--
-		     <link rel="icon" type="image/x-icon" href="favicon.ico">
-		     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-		   -->
-		<link href="//fonts.css.network/css?family=Noto+Sans:400,700,400italic,700italic" rel="stylesheet" type="text/css">
-		<!--
-		     <link rel="stylesheet" type="text/css" href="css/main.css">
-		     <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
-		     <script type="text/javascript" src="js/animate.js"></script>
-		   -->
-		<script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
-
-		<title>Tan Jing is my only one.</title>
+		<style>
+		button {
+			cursor: pointer;
+	    border: 0;
+	    outline: 0;
+	    padding: 0 1em;
+	    margin: 0;
+	    background: #ff2a2a;
+	    color: #fff;
+	    border-radius: 0.5em;
+	    line-height: 2em;
+			font-size: 2em;
+		}
+		button:hover {
+			background: #aa2a2a;
+		}
+		@keyframes rotate-background {
+			0% {
+		    transform: rotate(0);
+			}
+			50% {
+				transform: rotate(180deg);
+			}
+			100% {
+		    transform: rotate(360deg);
+			}
+		}
+		.background img {
+	    display: block;
+	    position: fixed;
+			border: 0;
+	    top: 50%;
+	    left: 50%;
+	    pointer-events: none;
+	    touch-action: none;
+	    animation-iteration-count: infinite;
+	    animation-name: rotate-background;
+		}
+		.background img.background-bottom {
+	    width: 220vmax;
+	    height: 220vmax;
+	    margin-left: -110vmax;
+	    margin-top: -110vmax;
+	    animation-duration: 20s;
+	    animation-timing-function: cubic-bezier(.21,.65,.77,.25);
+	    z-index: -1;
+		}
+		.background img.background-middle {
+	    width: 185vmax;
+	    height: 185vmax;
+	    margin-left: -92.5vmax;
+	    margin-top: -92.5vmax;
+	    animation-duration: 27500ms;
+	    animation-timing-function: linear;
+	    z-index: -1;
+		}
+		.background img.background-top {
+	    width: 150vmax;
+	    height: 150vmax;
+	    margin-left: -75vmax;
+	    margin-top: -75vmax;
+	    animation-duration: 35s;
+	    animation-timing-function: cubic-bezier(.59,.17,.26,.76);
+	    z-index: 0;
+		}
+		.main {
+			width: 60em;
+			margin: auto;
+			padding: 10em 15em;
+			text-align: center;
+		}
+		.type {
+			font-size: 2em;
+		}
+		.yes {
+			position: absolute;
+			top: 66vh;
+			left: 33vw;
+		}
+		.no {
+			position: absolute;
+			top: 66vh;
+			left: 66vw;
+		}
+		@media (max-width: 60em) {
+			.main {
+				width: auto;
+				margin: 0;
+				padding: 10em 0em;
+			}
+		}
+		</style>
+		<script type="text/javascript">
+		const type = (id, pArr, interval) => {
+			if (pArr == null || pArr.length === 0) {
+				return
+			}
+			const t = document.getElementById(id)
+			let i = 0
+			let j = 0
+			let p = document.createElement('p')
+			t.appendChild(p)
+			const repeat = () => {
+				p.innerHTML = pArr[i].substring(0, j++) + '_'
+				if (j >= pArr[i].length) {
+					p.innerHTML = pArr[i]
+					++i
+					j = 0
+					p = document.createElement('p')
+					t.appendChild(p)
+				}
+				if (i < pArr.length) {
+					setTimeout(repeat, interval || 100)
+				}
+			}
+			repeat()
+		}
+		const escape = (id) => {
+			const e = document.getElementById(id)
+			let counter = 0
+			e.addEventListener('mouseenter', (event) => {
+				event.preventDefault()
+				if (!(++counter % 10)) {
+					type('type', ['Please please click `Yes`!'])
+				}
+				e.style.top = `${Math.floor(Math.random() * 90)}vh`
+				e.style.left = `${Math.floor(Math.random() * 90)}vw`
+			})
+			e.addEventListener('click', (event) => {
+				event.preventDefault()
+				if (!(++counter % 10)) {
+					type('type', ['Please please click `Yes`!'])
+				}
+				e.style.top = `${Math.floor(Math.random() * 90)}vh`
+				e.style.left = `${Math.floor(Math.random() * 90)}vw`
+			})
+		}
+		const click = (id) => {
+			const e = document.getElementById(id)
+			e.addEventListener('click', (event) => {
+				event.preventDefault()
+				type('type', ['Yes I love you, too!'])
+			})
+		}
+		const load = () => {
+			escape('no')
+			click('yes')
+			type('type', ['Do you love me?'])
+		}
+		</script>
+		<title>Do You Love Me?</title>
 	</head>
-	<body>
-		<h1 onclick="this.innerHTML='I love you.'">Tan Jing is my only one.</h1>
-		<script type="text/javascript" src="js/canvas-nest.min.js"></script>
+	<body onload="load()">
+		<div class="background">
+      <img class="background-bottom" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iODAwIiBoZWlnaHQ9IjgwMCIgdmlld0JveD0iMCAwIDgwMCA4MDAiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJNMCAwaDgwMHY4MDBIMHoiLz48L2RlZnM+PGNsaXBQYXRoIGlkPSJiIj48dXNlIHhsaW5rOmhyZWY9IiNhIiBvdmVyZmxvdz0idmlzaWJsZSIvPjwvY2xpcFBhdGg+PGcgY2xpcC1wYXRoPSJ1cmwoI2IpIiBmaWxsPSJub25lIiBzdHJva2U9IiNEMkQyRDIiIHN0cm9rZS13aWR0aD0iLjEiPjxwYXRoIGQ9Ik0xMTIuMTU2LTczLjYzM2w2MzEuNDE5IDkxOS4wOTVNMTgyLjA2NC0xMjQuMTk0bC03OS45MjYgOTE1LjgzN20yNTguNDE4IDEyNS40MDFMLTM1Ljg4NyAxMDYuODI1bTIzMC4wNDggNzMxLjQ0M0w5MTMuNDM1IDYuODQxTTQzNC44ODYtOTQuNDMybDE1MC45NDYgOTc2LjA5OG00NDQuODA4LTY0Ni41MjVMMzYzLjY0NyA4NDAuMzE0bTU2NS4wNjggNTEuNzY4TC0xMTkuNzE5IDMwNS44NDdtMTAuMjYyIDM5My4wMTJsMTEyMy42MTQtMTU2LjU0OE02OTguOTU0LTE1Ljc4NmwtODYxLjc5MiA2NDYuMjIzTS0zNi4zNTgtMTYuMzRsOTc4LjE3NyA1MzEuOTY0bTU0Ljk0Mi0zNDkuODUzbC0xMjA0LjQyMyAyOTUuNjFtNTI3LjU1MS02NDguNDE4bC02LjQwMSAxMTQxLjA5NG02MzUuMjY0LTE2OS42MjZMLTk1LjMyIDI2Ny42NjZtOTgwLjUyNC0xMC43NjlMLjczNSA4NTAuMDc0bTUyMy43NTMgNDkuNjc0TC0yNy4wMjctNjYuNDc5bS02NC41MzYgODkzLjI3Mmw2NTkuMjMtOTQzLjMwMm0tMTk2Ljc1MiA1LjA4Nkw4MjEuNiA4ODIuODI2TTgzOC43MTgtNy4wNjVMNy4wODkgODcwLjU4NE0xMDU4LjAxNiA3NzEuMkwzNzcuODkzLTE3Ni4yNDFNMTA1LjQwMSA4ODguODgxTDI2Mi43MzItMjA3Ljg0N20tMzU0LjM0NCA3OC40ODlMMjc3Ljk3NCA5MDEuNjc0bS00NTguOTI3LTE3My45MDhsNjcwLjA1LTg0NS42NzVtLTM2MC4xOTktNDUuNjc5bDUyMy41MSAxMDgxLjA0bTI0OS4zMTkgMTE5LjY0TDU4NC40MTMtODguOThNOTM1LjEzMiAxNS45NjVMMzE5LjQ1NCA4MjAuODk5bTgxLjE2MSA1NS43OTNsLjctOTQ3Ljg3NG0tMTY3LjM3Ni0zMS4xNTFsMjYwLjAxMyA5NDguNTgybTM5MS41MS0yNy44MjVMLTIzNC45NzkgMzg0LjA3OG04MTAuMDY1LTU0Ny4xNDdMMzMxLjQ1OSA5MjUuMDgyTTQ5MS4zNzUtMTgzLjk1M2w0MTUuMzEzIDgyMC4xNTltLTE5My4xMSAyMTIuNjM1bDY2LjExNi04OTkuNTgzbTU4Ljk2MiA3NjQuNDk2bC05NzcuMjExLTUwMy42NzNNMjY3LjgzMy02Mi4xNThsMjIzLjUwMyA5NjIuMDgxbS02NTMuNjIyLTQzNC4zMTRsODQ0LjQxNCAzMTMuMTc2bS01MDUuMTIgMjU4LjUyNGw3NTQuNjE4LTkzNC41NzhtMTM2Ljg3IDM2OC41NTJMLTMyLjU3MiA3NDQuNTM1bTg0LjYzNS02MzUuMzQ0TDEwOTIuNTQ5IDM4Ny45TTczNC4yNTQtMTY1LjIxOUwyNC42MiA2OTIuODIzbS0xODEuMzA1LTMwNC4yMTFsMTIyNy44NjEtMTc0LjI5OE0zNDAuMDYtMTkwLjkzNEw3NzEuMDQ1IDg2NS42NThtLTY1Mi43MzEgNzkuMjA5TDg5NC43NjIgNzYuMzg2TS0xOS4yMTIgNDMxLjYyN2wxMDQxLjc3MyAyMjEuMDM1TTU1NSA4OTMuODUzTDcwNi45MTctMjA4LjI3NG0zOTIuNjI3IDgwNC45NUwxMzYuMzg0LTMzLjE4N20xODQuNDg3LTY4LjU2OEwyNzIuOTY2IDk4OC44Mk0tNzQuMzk1IDE2OS4zNDRsMTA5OC42OTcgNTA0LjcxOE0xMS45ODQgOTczLjI4OUwyOTAuMjUxLTE1OS4zMW02NDkuNjMgODg2Ljk3M2wtNTU0LjUyOC05NTkuMm0zNTguMDgtNTkuMTQ5bDQxLjA1OSAxMDk0LjUwMm0zNjEuMTIyLTMzMi4zMzhMMjA4Ljc3OC02My43NTJtMzE3LjI2My0xNzYuNTYybC04My4xNiAxMTk4LjI0N00yNTYuMDY5IDExNjEuODNMMTMxLjA5OC0xLjQwMW0tMjg2LjM5IDIyOC4wMzFMNzE1LjkxIDc0NC4zMDZtLTU0LjUzOSA4Mi4wMDlMMzA3LjY0OC01My4wODZtMTQzLjcyOC05MS4yNTZMNTYzLjQxMSA4MzIuODNtLTM3My43IDEyMC4wMTFsODc4LjAyLTgyMC40NDIiLz48L2c+PC9zdmc+">
+      <img class="background-middle" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iODAwIiBoZWlnaHQ9IjgwMCIgdmlld0JveD0iMCAwIDgwMCA4MDAiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJNMCAwaDgwMHY4MDBIMHoiLz48L2RlZnM+PGNsaXBQYXRoIGlkPSJiIj48dXNlIHhsaW5rOmhyZWY9IiNhIiBvdmVyZmxvdz0idmlzaWJsZSIvPjwvY2xpcFBhdGg+PGcgY2xpcC1wYXRoPSJ1cmwoI2IpIiBmaWxsPSJub25lIiBzdHJva2U9IiNCQUJBQkEiIHN0cm9rZS13aWR0aD0iLjE1Ij48cGF0aCBkPSJNNDUyLjc3My0xNzIuNjMxTDQxMi4zNjUgOTQxLjcyNm0tNDUuNzEtMTExOS41NzFsNTU4LjM3MSA3MzAuMzJNNzc0LjA4MyA3OTYuODU0TDY3NC40OC05OS42MzltMTk3Ljg1MSA3NDAuOEwtMTgwLjU0MSAzMjQuNzk4TTE2OS4xNzItMTcuMjA0bDM5NS43NjcgOTA0Ljk0Mm0tNzIyLjA1Ni0zMDcuMzg0bDg4Ny40NjMgMTUzLjM4MW0tNDQ5LjI5IDM0Ni41ODRMODUxLjkzIDIzLjQ0M20yMDEuOTk1IDMzNy4yODZMMjEuNDQ0IDgzMC44MzZtLTMzLjA0Ni02NDAuMTA0bDEwNzMuOTE2IDgzLjYyMU02MDguODYxLTIwMy44NjlMNjguMjA5IDc2OS41MzNtLTIzMy45MDgtMjY1LjkwMUwxMDA5LjU0IDEwNy42MDhtLTc5Mi45MjMtMjY0LjYzbDYxNy4wNCA5NTkuODk0bS02MjcuMjE4IDE5Ny4zMDdMODEwLjg2NyA0LjI4OE0tMjIuNjc2IDUyMC43NjdsMTA2NC42MjggMjYuNjgzTTYyNi40MTkgODcwLjEyMkw1NzQuMTA4LTI0MS4xOTVtNTMzLjI4NSA3MTkuNTE4TDQ1LjI0NCAzNS4zM00yMTQuMDctNjUuODM4bDE1Mi40NTMgMTA4MC45MjltLTQ5MS40NDEtNzQyLjA4MmwxMTcyLjQ5OSAyOTUuMTYybS05NDAuNDc2IDQ3OS40MDVsNjYuMzMxLTExNjQuMzkzbTgwMC45NTcgNzUzLjEzbC03MjAuNjc3LTg0MS41NG0zNDEuMjEyLTEyMy42N0w4MzUuNTYyIDczOS42MTRtMjk0LjIxNC0zOTIuODA0TDExMC44MjMtNy45NjZtMjc5LjYtMjMxLjYzM0w1MjcuOTE3IDk1My42MzVtLTE0Ni4zNSAyMzQuNjM3TDQ1Ljg2MiA2Ny41NDZNLTE5My45NjcgMzQ0LjEzbDk1MS4yMTUgMzQ5LjUyN20tMzguNjEyIDkwLjYwNUwyMDkuOTc2LTE1LjU3MW0xMjQuNjAzLTExNi4wMTNMNjIzLjUyMSA4MDguNTlNMjc4LjA4OSA5OTQuOTUzTDk5MS4xNjYgMjcuNzA2Ii8+PC9nPjwvc3ZnPg==">
+      <img class="background-top" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iODAwIiBoZWlnaHQ9IjgwMCIgdmlld0JveD0iMCAwIDgwMCA4MDAiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJNMCAwaDgwMHY4MDBIMHoiLz48L2RlZnM+PGNsaXBQYXRoIGlkPSJiIj48dXNlIHhsaW5rOmhyZWY9IiNhIiBvdmVyZmxvdz0idmlzaWJsZSIvPjwvY2xpcFBhdGg+PGcgY2xpcC1wYXRoPSJ1cmwoI2IpIiBmaWxsPSJub25lIiBzdHJva2U9IiM2ODY4NjgiIHN0cm9rZS13aWR0aD0iLjIiPjxwYXRoIGQ9Ik0xNC4wMjQgMGw3ODguOTMxIDc4OC4wNDRNNzMuNS02Mi41bDg5IDkxNW0yNzcgNzZsLTUzOC03MjRtMzYwIDY3N2w1NTUtOTQ5bS00ODktMTJsMzI3IDkzMm0zMTktNzE3bC01NDUgNzE3bTU2NS01Mi41bC0xMTM4LTM4NC41bTgyIDM4NC41bDEwNzYtMzU5LjVtLTQxMi00OTFsLTcyOSA3OTNtNi02NTlsMTA1OSAzNDRtLTEwLTM1NGwtMTEzMCA1MTFtNDAwLTczNEw0MDAgOTczLjVtNTkzLjUtMjgzbC0xMTIxLTMxN205NjItMTkwbC03NjEgNzQ1bTUyNC00N2wtNzE5LTg0OW0xMDAgODkwTDQ1NC0xMjUuNW0tMTkyLjUgNDFsNjI1IDg5NW0tMTQ2LTg3OGwtNjU3IDEwMTVtMTAxNS0yOTBsLTg0Mi04MDdtLTczIDEwOTdsLTQ2LTExMDdtLTMzNCAxNDJsNTUyIDk0Nm0tNDgzLTg3bDUwNC05NTRtLTM2Mi40NzYgMjFsNzEyLjQ3NiA5NjdtMjY3IDcybC01MTgtMTA0OW0zNjQgMzlsLTQ1OCA5MDRtOTAgNDBsLTE3Mi43NS05MzJtLTE3MC4yNSAwbDQyOS4xOSA4ODQuOTkyTTkzNy41IDczNS41bC0xMTgxLTIyMiIvPjwvZz48L3N2Zz4=">
+    </div>
+		<main class="main">
+			<div class="type" id="type"></div>
+		</main>
+		<button type="button" name="button" id="yes" class="yes">Yes</button>
+		<button type="button" name="button" id="no" class="no">No</button>
 	</body>
 </html>
